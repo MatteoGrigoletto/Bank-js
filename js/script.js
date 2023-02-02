@@ -65,6 +65,7 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+// funzione per la generazione della listra di transazioni
 const displayMovements = function (movements) {
   containerMovements.innerHTML = '';
 
@@ -84,3 +85,15 @@ const displayMovements = function (movements) {
 };
 
 displayMovements(account1.movements);
+
+
+// funzione create con effetti collaterali ( senza restituire nulla e modificando gli account originali)
+let createUsertag = function (arr) {
+
+  arr.forEach( function (account){ 
+  
+    account.tag = account.owner.toLowerCase().split(' ').map(elm => elm[0]).join('')
+  })
+}
+console.log(createUsertag(accounts));
+console.log(accounts);
