@@ -86,24 +86,44 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
-
 // funzione create con effetti collaterali ( senza restituire nulla e modificando gli account originali)
 let createUsertag = function (arr) {
-
-  arr.forEach( function (account){ 
-  
-    account.tag = account.owner.toLowerCase().split(' ').map(elm => elm[0]).join('')
-  })
-}
+  arr.forEach(function (account) {
+    account.tag = account.owner
+      .toLowerCase()
+      .split(' ')
+      .map(elm => elm[0])
+      .join('');
+  });
+};
 
 // inserisce all'interno del tag html il totale delle transazioni avvenute nell'account
 
-const displayBalance = function(arrMovements){
-  labelBalance.textContent = arrMovements.movements.reduce((acc,num) => acc + num , 0) + ` EUR`
-}
-displayBalance(account1)
+const displayBalance = function (arrMovements) {
+  labelBalance.textContent =
+    arrMovements.movements.reduce((acc, num) => acc + num, 0) + ` 💶`;
+};
+displayBalance(account1);
 
+// funzione che gestisce le informazioni riguardanti il flusso di denaro
 
-const a = movements.reduce((count,elm ) => count < elm ? count : elm)
+const calcMoneyInfo = function (arrMovements) {
+  const incomes = arrMovements.movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}€`;
 
+  const out = arrMovements.movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`;
 
+  const interest = arrMovements.movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * arrMovements.interestRate) / 100)
+    .filter(int => int >= 1)
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${interest}€`;
+};
+
+calcMoneyInfo(account1);
