@@ -95,5 +95,15 @@ let createUsertag = function (arr) {
     account.tag = account.owner.toLowerCase().split(' ').map(elm => elm[0]).join('')
   })
 }
-console.log(createUsertag(accounts));
-console.log(accounts);
+
+// inserisce all'interno del tag html il totale delle transazioni avvenute nell'account
+
+const displayBalance = function(arrMovements){
+  labelBalance.textContent = arrMovements.movements.reduce((acc,num) => acc + num , 0) + ` EUR`
+}
+displayBalance(account1)
+
+
+const a = movements.reduce((count,elm ) => count < elm ? count : elm)
+
+
