@@ -17,8 +17,8 @@ html {
 
 body {
   font-family: 'Poppins', sans-serif;
-  color: #444;
-  background-color: #f3f3f3;
+  color: #f3eeee;
+  background-color: #393838;
   height: 100vh;
   padding: 2rem;
 }
@@ -37,6 +37,7 @@ nav {
 
 .logo {
   height: 5.25rem;
+  filter: invert(1);
 }
 
 .login {
@@ -56,14 +57,16 @@ nav {
   border: 1px solid #fff;
   transition: all 0.3s;
 }
-
+.login__input {
+  color: black;
+}
 .login__input:focus {
   outline: none;
-  border: 1px solid #ccc;
+  border: 1px solid #1e1d1d;
 }
 
 .login__input::placeholder {
-  color: #bbb;
+  color: #151515;
 }
 
 .login__btn {
@@ -125,7 +128,7 @@ nav {
 /* MOVEMENTS */
 .movements {
   grid-row: 2 / span 3;
-  background-color: #fff;
+  background-color: #dad4d4de;
   border-radius: 1rem;
   overflow: scroll;
 }
@@ -165,6 +168,7 @@ nav {
 .movements__value {
   font-size: 1.7rem;
   margin-left: auto;
+  color: black;
 }
 
 /* SUMMARY */
@@ -204,6 +208,7 @@ nav {
   font-size: 1.3rem;
   font-weight: 500;
   cursor: pointer;
+  color: white;
 }
 
 /* OPERATIONS */
@@ -214,15 +219,15 @@ nav {
 }
 
 .operation--transfer {
-  background-image: linear-gradient(to top left, #ffb003, #ffcb03);
+  background-image: linear-gradient(to top left, #19d3ec, #ffcb03);
 }
 
 .operation--loan {
-  background-image: linear-gradient(to top left, #39b385, #9be15d);
+  background-image: linear-gradient(to top left, #291198, #9be15d);
 }
 
 .operation--close {
-  background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+  background-image: linear-gradient(to top left, #361921, #ff585f);
 }
 
 h2 {
