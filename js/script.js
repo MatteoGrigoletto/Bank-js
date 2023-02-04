@@ -109,20 +109,20 @@ displayBalance(account1);
 
 const calcMoneyInfo = function (arrMovements) {
   const incomes = arrMovements.movements
-    .filter(mov => mov > 0)
-    .reduce((acc, mov) => acc + mov, 0);
+    .filter(movement => movement > 0)
+    .reduce((acc, movement) => acc + movement, 0);
   labelSumIn.textContent = `${incomes}€`;
 
   const out = arrMovements.movements
-    .filter(mov => mov < 0)
-    .reduce((acc, mov) => acc + mov, 0);
+    .filter(movement => movement < 0)
+    .reduce((acc, movement) => acc + movement, 0);
   labelSumOut.textContent = `${Math.abs(out)}€`;
 
   const interest = arrMovements.movements
-    .filter(mov => mov > 0)
+    .filter(movement => movement > 0)
     .map(deposit => (deposit * arrMovements.interestRate) / 100)
-    .filter(int => int >= 1)
-    .reduce((acc, int) => acc + int, 0);
+    .filter(interest => interest >= 1)
+    .reduce((acc, interest) => acc + interest, 0);
   labelSumInterest.textContent = `${interest}€`;
 };
 
