@@ -2,28 +2,28 @@
 
 // account che simulano un API
 const account1 = {
-  owner: 'Jonas Schmedtmann',
+  owner: 'Matteo Grigoletto',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
 };
 
 const account2 = {
-  owner: 'Jessica Davis',
+  owner: 'Alessandro Zuddas',
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
 };
 
 const account3 = {
-  owner: 'Steven Thomas Williams',
+  owner: 'Samuele Madrigali',
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
 };
 
 const account4 = {
-  owner: 'Sarah Smith',
+  owner: 'Riccardo Bernardi',
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
   pin: 4444,
@@ -66,10 +66,10 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // funzione per la generazione della listra di transazioni
-const displayMovements = function (movements) {
+const displayMovements = function (objAccount) {
   containerMovements.innerHTML = '';
 
-  movements.forEach((element, i) => {
+  objAccount.movements.forEach((element, i) => {
     const transationHtml = `
     <div class="movements__row">
       <div class="movements__type movements__type--${
@@ -84,9 +84,7 @@ const displayMovements = function (movements) {
   });
 };
 
-displayMovements(account1.movements);
-
-// funzione create con effetti collaterali ( senza restituire nulla e modificando gli account originali)
+// funzione create con effetti collaterali ( senza restituire nulla e aggiungendo una proprieta' tag)
 let createUsertag = function (arr) {
   arr.forEach(function (account) {
     account.tag = account.owner
@@ -99,31 +97,55 @@ let createUsertag = function (arr) {
 
 // inserisce all'interno del tag html il totale delle transazioni avvenute nell'account
 
-const displayBalance = function (arrMovements) {
+const displayBalance = function (objAccount) {
   labelBalance.textContent =
-    arrMovements.movements.reduce((acc, num) => acc + num, 0) + ` 💶`;
+    objAccount.movements.reduce((acc, num) => acc + num, 0) + ` 💶`;
 };
-displayBalance(account1);
 
 // funzione che gestisce le informazioni riguardanti il flusso di denaro
 
-const calcMoneyInfo = function (arrMovements) {
-  const incomes = arrMovements.movements
+const calcMoneyInfo = function (objAccount) {
+  const incomes = objAccount.movements
     .filter(movement => movement > 0)
     .reduce((acc, movement) => acc + movement, 0);
   labelSumIn.textContent = `${incomes}€`;
 
-  const out = arrMovements.movements
+  const out = objAccount.movements
     .filter(movement => movement < 0)
     .reduce((acc, movement) => acc + movement, 0);
   labelSumOut.textContent = `${Math.abs(out)}€`;
 
-  const interest = arrMovements.movements
+  const interest = objAccount.movements
     .filter(movement => movement > 0)
-    .map(deposit => (deposit * arrMovements.interestRate) / 100)
+    .map(deposit => (deposit * objAccount.interestRate) / 100)
     .filter(interest => interest >= 1)
     .reduce((acc, interest) => acc + interest, 0);
   labelSumInterest.textContent = `${interest}€`;
 };
 
-calcMoneyInfo(account1);
+// btn evento che fa eseguire l'accesso all'utente calcolando
+// i bilanci tramite le funzioni precedentemente implementate
+let accountOn;
+
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  // genera una nuova proprieta' all'interno dell'oggetto utente creando un tag
+  // che successivamente viene comparato con il pin inserito nella home
+
+  createUsertag(accounts);
+
+  accountOn = accounts.find(
+    account =>
+      account.tag === inputLoginUsername.value &&
+      account?.pin === Number(inputLoginPin.value)
+  );
+  if (accountOn) {
+    labelWelcome.textContent = ` Welcome ${accountOn.owner}`;
+    containerApp.style.opacity = 1;
+  }
+
+  displayMovements(accountOn);
+  displayBalance(accountOn);
+  calcMoneyInfo(accountOn);
+});
