@@ -140,6 +140,8 @@ btnLogin.addEventListener('click', function (e) {
       account.tag === inputLoginUsername.value &&
       account?.pin === Number(inputLoginPin.value)
   );
+  inputLoginUsername.value = '';
+  inputLoginPin.value = '';
   if (accountOn) {
     labelWelcome.textContent = ` Welcome ${accountOn.owner}`;
     containerApp.style.opacity = 1;
@@ -148,4 +150,39 @@ btnLogin.addEventListener('click', function (e) {
   displayMovements(accountOn);
   displayBalance(accountOn);
   calcMoneyInfo(accountOn);
+});
+
+// evento per la transizione di denaro da account
+
+let accountTransferIn;
+
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  // tramite metodo find trovo il tag corrispondente e
+  // manipolo la sua proprietà movemets, inserendoci all'interno il valore
+  //precedentemente inserito nell'imput
+
+  accountTransferIn = accounts.find(acc => inputTransferTo.value === acc.tag);
+  let amountTransfer = Number(inputTransferAmount.value);
+  inputTransferTo.value = '';
+  inputTransferAmount.value = '';
+  let TotalAmountAccount = accountOn.movements.reduce(
+    (total, mov) => total + mov,
+    0
+  );
+  if (
+    amountTransfer > 0 &&
+    TotalAmountAccount >= amountTransfer &&
+    accountTransferIn &&
+    accountTransferIn.tag !== accountOn.tag
+  ) {
+    accountOn.movements.push(-amountTransfer);
+    accountTransferIn.movements.push(amountTransfer);
+
+    //ricalcola le info relative all'interfaccia grafica del contro
+    displayMovements(accountOn);
+    displayBalance(accountOn);
+    calcMoneyInfo(accountOn);
+  }
 });
