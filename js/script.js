@@ -187,13 +187,21 @@ btnTransfer.addEventListener('click', function (e) {
   }
 });
 
+// evento che elimina account
 btnClose.addEventListener('click', function (e) {
   e.preventDefault();
-
-  let delectedAccount = accounts.findIndex(
-    account =>
-      account.tag === inputCloseUsername.value &&
-      account?.pin === Number(inputClosePin.value)
-  );
-  containerApp.style.opacity = 0;
+  if (
+    accountOn.tag === inputCloseUsername.value &&
+    accountOn.pin === Number(inputClosePin.value)
+  ) {
+    let delectedAccount = accounts.findIndex(
+      account =>
+        account.tag === inputCloseUsername.value &&
+        account?.pin === Number(inputClosePin.value)
+    );
+    inputCloseUsername.value = '';
+    inputClosePin.value = '';
+    accounts.splice(delectedAccount, 1);
+    containerApp.style.opacity = 0;
+  }
 });
