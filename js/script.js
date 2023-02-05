@@ -123,6 +123,15 @@ const calcMoneyInfo = function (objAccount) {
   labelSumInterest.textContent = `${interest}€`;
 };
 
+// funzione che richiama al suo interno funzioni per il ricalcolo dei dati
+// relativi all'interfaccia
+
+const displayInfoCalcolation = function (acc) {
+  displayMovements(acc);
+  displayBalance(acc);
+  calcMoneyInfo(acc);
+};
+
 // btn evento che fa eseguire l'accesso all'utente calcolando
 // i bilanci tramite le funzioni precedentemente implementate
 let accountOn;
@@ -146,10 +155,7 @@ btnLogin.addEventListener('click', function (e) {
     labelWelcome.textContent = ` Welcome ${accountOn.owner}`;
     containerApp.style.opacity = 1;
   }
-
-  displayMovements(accountOn);
-  displayBalance(accountOn);
-  calcMoneyInfo(accountOn);
+  displayInfoCalcolation(accountOn);
 });
 
 // evento per la transizione di denaro da account
@@ -181,18 +187,28 @@ btnTransfer.addEventListener('click', function (e) {
     accountTransferIn.movements.push(amountTransfer);
 
     //ricalcola le info relative all'interfaccia grafica del contro
-    displayMovements(accountOn);
-    displayBalance(accountOn);
-    calcMoneyInfo(accountOn);
+    displayInfoCalcolation(accountOn);
   }
+});
+
+// evento per aggiungere fondi al conto
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  let loan = inputLoanAmount.value;
+  if (Number(loan) > 1000) {
+    accountOn.movements.push(Number(loan));
+  }
+  loan = '';
+  displayInfoCalcolation(accountOn);
 });
 
 // evento che elimina account
 btnClose.addEventListener('click', function (e) {
   e.preventDefault();
   if (
-    accountOn.tag === inputCloseUsername.value &&
-    accountOn.pin === Number(inputClosePin.value)
+    accountOn?.tag === inputCloseUsername.value &&
+    accountOn?.pin === Number(inputClosePin.value)
   ) {
     let delectedAccount = accounts.findIndex(
       account =>
