@@ -217,6 +217,7 @@ btnClose.addEventListener('click', function (e) {
     );
     inputCloseUsername.value = '';
     inputClosePin.value = '';
+    labelWelcome.textContent = 'Log in to get started';
     accounts.splice(delectedAccount, 1);
     containerApp.style.opacity = 0;
   }
