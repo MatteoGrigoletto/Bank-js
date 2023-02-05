@@ -186,3 +186,14 @@ btnTransfer.addEventListener('click', function (e) {
     calcMoneyInfo(accountOn);
   }
 });
+
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  let delectedAccount = accounts.findIndex(
+    account =>
+      account.tag === inputCloseUsername.value &&
+      account?.pin === Number(inputClosePin.value)
+  );
+  containerApp.style.opacity = 0;
+});
