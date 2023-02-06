@@ -1,0 +1,25 @@
+/* OPERATIONS */
+.operation {
+  border-radius: 1rem;
+  padding: 3rem 4rem;
+  color: #333;
+}
+
+.operation--transfer {
+  background-image: linear-gradient(to top left, #19d3ec, #ffcb03);
+}
+
+.operation--loan {
+  background-image: linear-gradient(to top left, #291198, #9be15d);
+}
+
+.operation--close {
+  background-image: linear-gradient(to top left, #361921, #ff585f);
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 2.5fr 2.5fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 0.4rem 1rem;
+}
