@@ -4,8 +4,18 @@
 const account1 = {
   owner: 'Matteo Grigoletto',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
-  interestRate: 1.2, // %
+  interestRate: 1.2,
   pin: 1111,
+  dateMovements: [
+    '2023-01-01T10:13:12.047Z',
+    '2023-02-01T17:11:18.032Z',
+    '2023-03-01T12:16:16.042Z',
+    '2023-04-01T14:11:13.067Z',
+    '2023-05-01T10:13:12.047Z',
+    '2023-06-01T17:11:18.032Z',
+    '2023-07-01T12:16:16.042Z',
+    '2023-08-01T14:11:13.067Z',
+  ],
 };
 
 const account2 = {
@@ -13,6 +23,16 @@ const account2 = {
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
+  dateMovements: [
+    '2023-01-01T10:13:12.047Z',
+    '2023-02-01T17:11:18.032Z',
+    '2023-03-01T12:16:16.042Z',
+    '2023-04-01T14:11:13.067Z',
+    '2023-05-01T10:13:12.047Z',
+    '2023-06-01T17:11:18.032Z',
+    '2023-07-01T12:16:16.042Z',
+    '2023-08-01T14:11:13.067Z',
+  ],
 };
 
 const account3 = {
@@ -20,6 +40,16 @@ const account3 = {
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
+  dateMovements: [
+    '2023-01-01T10:13:12.047Z',
+    '2023-02-01T17:11:18.032Z',
+    '2023-03-01T12:16:16.042Z',
+    '2023-04-01T14:11:13.067Z',
+    '2023-05-01T10:13:12.047Z',
+    '2023-06-01T17:11:18.032Z',
+    '2023-07-01T12:16:16.042Z',
+    '2023-08-01T14:11:13.067Z',
+  ],
 };
 
 const account4 = {
@@ -27,6 +57,16 @@ const account4 = {
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
   pin: 4444,
+  dateMovements: [
+    '2023-01-01T10:13:12.047Z',
+    '2023-02-01T17:11:18.032Z',
+    '2023-03-01T12:16:16.042Z',
+    '2023-04-01T14:11:13.067Z',
+    '2023-05-01T10:13:12.047Z',
+    '2023-06-01T17:11:18.032Z',
+    '2023-07-01T12:16:16.042Z',
+    '2023-08-01T14:11:13.067Z',
+  ],
 };
 
 const accounts = [account1, account2, account3, account4];
@@ -57,12 +97,6 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
-
 // funzione per la generazione della listra di transazioni
 const displayMovements = function (objAccount, bool = false) {
   containerMovements.innerHTML = '';
@@ -71,13 +105,23 @@ const displayMovements = function (objAccount, bool = false) {
     : objAccount.movements;
 
   arrManipolate.forEach((element, i) => {
+    // aggiunge data transazioni
+    const movementDate = new Date(objAccount.dateMovements[i]);
+    const month = movementDate.getMonth() + 1;
+    const year = movementDate.getFullYear();
+    const day = movementDate.getDate();
+    const totalDate = `${day} - ${month} - ${year}`;
+
     const transationHtml = `
     <div class="movements__row">
       <div class="movements__type movements__type--${
-        element > 0 ? 'deposit' : 'withdrawal'
+        bool ? '' : element > 0 ? 'deposit' : 'withdrawal'
       }">
-        ${i + 1} ${element > 0 ? 'deposit' : 'withdrawal'}
+        ${bool ? '' : i + 1} ${
+      bool ? '' : element > 0 ? 'deposit' : 'withdrawal'
+    }
       </div>
+      <div class="movements__date">${bool ? '' : totalDate}</div>
       <div class="movements__value">${element}€</div>
     </div>
     `;
@@ -142,7 +186,10 @@ btnLogin.addEventListener('click', function (e) {
 
   // genera una nuova proprieta' all'interno dell'oggetto utente creando un tag
   // che successivamente viene comparato con il pin inserito nella home
-
+  const loginDate = new Date();
+  document.querySelector('.date').textContent = `${loginDate.getDate()} / ${
+    loginDate.getMonth() + 1
+  } / ${loginDate.getFullYear()}`;
   createUsertag(accounts);
 
   accountOn = accounts.find(
@@ -186,6 +233,8 @@ btnTransfer.addEventListener('click', function (e) {
   ) {
     accountOn.movements.push(-amountTransfer);
     accountTransferIn.movements.push(amountTransfer);
+    accountOn.dateMovements.push(new Date());
+    accountTransferIn.dateMovements.push(new Date());
 
     //ricalcola le info relative all'interfaccia grafica del contro
     displayInfoCalcolation(accountOn);
@@ -201,6 +250,7 @@ btnLoan.addEventListener('click', function (e) {
     accountOn.movements.push(Number(loan));
   }
   loan = '';
+  accountOn.dateMovements.push(new Date());
   displayInfoCalcolation(accountOn);
 });
 
