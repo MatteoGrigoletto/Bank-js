@@ -110,7 +110,8 @@ const displayMovements = function (objAccount, bool = false) {
     const month = movementDate.getMonth() + 1;
     const year = movementDate.getFullYear();
     const day = movementDate.getDate();
-    const totalDate = `${day} - ${month} - ${year}`;
+
+    const totalDate = `${day} / ${month} / ${year} `;
 
     const transationHtml = `
     <div class="movements__row">
@@ -183,15 +184,14 @@ let accountOn;
 
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
-
-  // genera una nuova proprieta' all'interno dell'oggetto utente creando un tag
-  // che successivamente viene comparato con il pin inserito nella home
   const loginDate = new Date();
   document.querySelector('.date').textContent = `${loginDate.getDate()} / ${
     loginDate.getMonth() + 1
   } / ${loginDate.getFullYear()}`;
   createUsertag(accounts);
 
+  // genera una nuova proprieta' all'interno dell'oggetto utente creando un tag
+  // che successivamente viene comparato con il pin inserito nella home
   accountOn = accounts.find(
     account =>
       account.tag === inputLoginUsername.value &&
@@ -251,7 +251,7 @@ btnLoan.addEventListener('click', function (e) {
   }
   loan = '';
   accountOn.dateMovements.push(new Date());
-  displayInfoCalcolation(accountOn);
+  setTimeout(() => displayInfoCalcolation(accountOn), 3000);
 });
 
 // evento che elimina account
