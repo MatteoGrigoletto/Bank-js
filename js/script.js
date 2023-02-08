@@ -197,6 +197,9 @@ btnLogin.addEventListener('click', function (e) {
       account.tag === inputLoginUsername.value &&
       account?.pin === Number(inputLoginPin.value)
   );
+
+  timer();
+
   inputLoginUsername.value = '';
   inputLoginPin.value = '';
   if (accountOn) {
@@ -280,3 +283,20 @@ btnSort.addEventListener('click', function (e) {
   sortActive = sortActive == false ? true : false;
   displayMovements(accountOn, sortActive);
 });
+
+// timer inattivita'
+let timer = function () {
+  let time = 300;
+
+  const timeDecrease = setInterval(function () {
+    let timeMinutes = Math.trunc(time / 60);
+    let timeSeconds = time % 60;
+    labelTimer.textContent = `${timeMinutes} : ${timeSeconds}`;
+    time--;
+    if (time === 0) {
+      clearInterval(timeDecrease);
+      labelWelcome.textContent = 'Log in to get started';
+      containerApp.style.opacity = 0;
+    }
+  }, 1000);
+};
