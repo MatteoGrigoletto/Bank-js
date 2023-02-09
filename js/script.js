@@ -181,6 +181,8 @@ const displayInfoCalcolation = function (acc) {
 // btn evento che fa eseguire l'accesso all'utente calcolando
 // i bilanci tramite le funzioni precedentemente implementate
 let accountOn;
+// variabile che permette di capire le il timer e' avviato o no
+let timeDecrease;
 
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
@@ -197,8 +199,11 @@ btnLogin.addEventListener('click', function (e) {
       account.tag === inputLoginUsername.value &&
       account?.pin === Number(inputLoginPin.value)
   );
-
-  timer();
+  // controllo se il timer e' attivo o no
+  if (timeDecrease) {
+    clearInterval(timeDecrease);
+  }
+  timeDecrease = timer();
 
   inputLoginUsername.value = '';
   inputLoginPin.value = '';
@@ -288,7 +293,7 @@ btnSort.addEventListener('click', function (e) {
 let timer = function () {
   let time = 300;
 
-  const timeDecrease = setInterval(function () {
+  let timeDecrease = setInterval(function () {
     let timeMinutes = Math.trunc(time / 60);
     let timeSeconds = time % 60;
     labelTimer.textContent = `${timeMinutes} : ${timeSeconds}`;
@@ -299,4 +304,5 @@ let timer = function () {
       containerApp.style.opacity = 0;
     }
   }, 1000);
+  return timeDecrease;
 };
