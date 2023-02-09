@@ -294,8 +294,8 @@ let timer = function () {
   let time = 300;
 
   let timeDecrease = setInterval(function () {
-    let timeMinutes = Math.trunc(time / 60);
-    let timeSeconds = time % 60;
+    let timeMinutes = String(Math.trunc(time / 60)).padStart(2, 0);
+    let timeSeconds = String(time % 60).padStart(2, 0);
     labelTimer.textContent = `${timeMinutes} : ${timeSeconds}`;
     time--;
     if (time === 0) {
